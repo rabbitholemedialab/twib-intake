@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Video Intro · Texas Women in Business</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #F7F3EE;
+    --ink: #1A1614;
+    --muted: #7A6E67;
+    --accent: #C1440E;
+    --accent-light: #F5E8E2;
+    --border: #E2DAD3;
+    --white: #FFFFFF;
+    --success: #2A6B3C;
+    --success-bg: #EAF3ED;
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+
+  html { background: var(--cream); min-height: 100vh; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+    color: var(--ink);
+    background: var(--cream);
+    min-height: 100vh;
+    padding: 0 0 80px;
+  }
+
+  .header {
+    background: var(--ink);
+    color: var(--white);
+    padding: 28px 24px 24px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: var(--accent);
+    opacity: 0.15;
+  }
+
+  .header-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+
+  .header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+
+  .header h1 span { color: #E8926A; }
+
+  .header-sub {
+    font-size: 14px;
+    color: rgba(255,255,255,0.6);
+    font-weight: 300;
+  }
+
+  .progress-bar {
+    height: 3px;
+    background: var(--border);
+    position: relative;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--accent);
+    width: 33%;
+    transition: width 0.4s ease;
+  }
+
+  .container {
+    max-width: 540px;
+    margin: 0 auto;
+    padding: 0 16px;
+  }
+
+  .step-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 20px 0 16px;
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .step-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--border);
+    transition: background 0.3s;
+  }
+  .step-dot.active { background: var(--accent); }
+  .step-dot.done { background: var(--ink); }
+
+  .section {
+    background: var(--white);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    padding: 20px;
+    margin-bottom: 14px;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    color: var(--ink);
+  }
+
+  .section-desc {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 18px;
+    line-height: 1.6;
+  }
+
+  .field { margin-bottom: 14px; }
+  .field:last-child { margin-bottom: 0; }
+
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+  label {
+    display: block;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--muted);
+    margin-bottom: 6px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+
+  label .req { color: var(--accent); margin-left: 2px; }
+
+  input[type="text"],
+  input[type="email"],
+  textarea,
+  select {
+    width: 100%;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    color: var(--ink);
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    -webkit-appearance: none;
+  }
+
+  input[type="text"]:focus,
+  input[type="email"]:focus,
+  textarea:focus,
+  select:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(193,68,14,0.1);
+    background: var(--white);
+  }
+
+  textarea { resize: vertical; min-height: 80px; line-height: 1.6; }
+
+  .tone-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+
+  .tone-btn {
+    padding: 10px 6px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--cream);
+    color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.15s;
+    line-height: 1.3;
+  }
+
+  .tone-btn:active { transform: scale(0.97); }
+
+  .tone-btn.selected {
+    background: var(--ink);
+    color: var(--white);
+    border-color: var(--ink);
+  }
+
+  .len-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+
+  .len-btn {
+    padding: 14px 8px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--cream);
+    color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.15s;
+  }
+
+  .len-btn:active { transform: scale(0.97); }
+
+  .len-btn.selected {
+    background: var(--ink);
+    color: var(--white);
+    border-color: var(--ink);
+  }
+
+  .len-btn .len-sec {
+    font-size: 22px;
+    font-weight: 700;
+    font-family: 'Playfair Display', serif;
+    display: block;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .len-btn .len-words {
+    font-size: 11px;
+    opacity: 0.65;
+    font-weight: 400;
+  }
+
+  .cta-btn {
+    width: 100%;
+    padding: 16px;
+    background: var(--accent);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    border: none;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    letter-spacing: 0.01em;
+    margin-top: 6px;
+  }
+
+  .cta-btn:hover { background: #A8390C; }
+  .cta-btn:active { transform: scale(0.98); }
+  .cta-btn:disabled { background: var(--border); color: var(--muted); cursor: not-allowed; transform: none; }
+
+  /* Script display */
+  .script-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    padding: 24px 20px;
+    margin-bottom: 14px;
+  }
+
+  .script-eyebrow {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+
+  .script-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 18px;
+  }
+
+  .script-text {
+    font-size: 18px;
+    line-height: 1.9;
+    color: var(--ink);
+    white-space: pre-wrap;
+    font-weight: 300;
+    letter-spacing: 0.01em;
+    min-height: 60px;
+  }
+
+  .script-text.loading {
+    color: var(--muted);
+    font-style: italic;
+    font-size: 15px;
+    animation: pulse 1.4s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .word-meta {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .script-edit-label {
+    font-size: 13px;
+    color: var(--muted);
+    margin: 16px 0 8px;
+    font-weight: 500;
+  }
+
+  #script-editor {
+    width: 100%;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.9;
+    color: var(--ink);
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 16px;
+    min-height: 140px;
+    resize: vertical;
+    font-weight: 300;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  #script-editor:focus {
+    border-color: var(--accent);
+    background: var(--white);
+    box-shadow: 0 0 0 3px rgba(193,68,14,0.1);
+  }
+
+  .action-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .sec-btn {
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--white);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-align: center;
+  }
+
+  .sec-btn:hover { background: var(--cream); border-color: var(--ink); }
+  .sec-btn:active { transform: scale(0.97); }
+
+  /* Success state */
+  .success-card {
+    background: var(--success-bg);
+    border: 1px solid #B8D9C3;
+    border-radius: var(--radius);
+    padding: 24px 20px;
+    text-align: center;
+    margin-bottom: 14px;
+  }
+
+  .success-icon {
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    background: var(--success);
+    color: white;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 14px;
+  }
+
+  .success-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--success);
+    margin-bottom: 8px;
+  }
+
+  .success-desc {
+    font-size: 14px;
+    color: #3D6B4A;
+    line-height: 1.6;
+  }
+
+  /* Step screens */
+  .screen { display: none; }
+  .screen.active { display: block; }
+
+  .hint {
+    background: var(--accent-light);
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+    font-size: 13px;
+    color: #8B3210;
+    line-height: 1.6;
+    margin-bottom: 14px;
+  }
+
+  .error-msg {
+    font-size: 12px;
+    color: var(--accent);
+    margin-top: 4px;
+    display: none;
+  }
+
+  .footer-note {
+    text-align: center;
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 20px;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 380px) {
+    .field-row { grid-template-columns: 1fr; }
+    .tone-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <p class="header-eyebrow">Texas Women in Business · Studio Event</p>
+  <h1>Your <span>15-second</span> intro<br>starts here.</h1>
+  <p class="header-sub">Fill this out and we'll write your teleprompter script.</p>
+</div>
+
+<div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+
+<div class="container">
+
+  <!-- SCREEN 1: About You -->
+  <div class="screen active" id="screen-1">
+    <div class="step-indicator">
+      <div class="step-dot active" id="dot-1"></div>
+      <div class="step-dot" id="dot-2"></div>
+      <div class="step-dot" id="dot-3"></div>
+      <span style="margin-left:4px;">Step 1 of 3 — About you</span>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Who are you?</div>
+      <div class="section-desc">Just the basics — we'll do the writing.</div>
+
+      <div class="field field-row">
+        <div>
+          <label>First name <span class="req">*</span></label>
+          <input type="text" id="f-first" placeholder="Maria" autocomplete="given-name" />
+        </div>
+        <div>
+          <label>Last name</label>
+          <input type="text" id="f-last" placeholder="Torres" autocomplete="family-name" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Business name <span class="req">*</span></label>
+        <input type="text" id="f-biz" placeholder="Torres Creative Co." />
+      </div>
+
+      <div class="field">
+        <label>Industry / niche</label>
+        <input type="text" id="f-industry" placeholder="Brand strategy, Real estate, Coaching..." />
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">What do you do?</div>
+      <div class="section-desc">In your own words — don't overthink it. One or two sentences.</div>
+
+      <div class="field">
+        <label>What you do <span class="req">*</span></label>
+        <textarea id="f-what" placeholder="I help small businesses build brand identities they're proud of — from logo to voice to social presence."></textarea>
+      </div>
+
+      <div class="field">
+        <label>Who you serve</label>
+        <input type="text" id="f-who" placeholder="Female founders launching or rebranding" />
+      </div>
+
+      <div class="field">
+        <label>One result you create (optional)</label>
+        <input type="text" id="f-result" placeholder="Clients get a brand that looks established, even on a startup budget" />
+      </div>
+    </div>
+
+    <button class="cta-btn" onclick="goStep2()">Next — Customize your script →</button>
+    <p class="footer-note">Your script will be sent directly to the production team.</p>
+  </div>
+
+  <!-- SCREEN 2: Customize -->
+  <div class="screen" id="screen-2">
+    <div class="step-indicator">
+      <div class="step-dot done" id="dot-1b"></div>
+      <div class="step-dot active" id="dot-2b"></div>
+      <div class="step-dot" id="dot-3b"></div>
+      <span style="margin-left:4px;">Step 2 of 3 — Your style</span>
+    </div>
+
+    <div class="section">
+      <div class="section-title">How do you want to come across?</div>
+      <div class="section-desc">Pick the tone that feels most like you.</div>
+      <div class="tone-grid" id="tone-grid">
+        <button class="tone-btn selected" onclick="selectTone(this,'Warm and friendly')">Warm &amp; friendly</button>
+        <button class="tone-btn" onclick="selectTone(this,'Bold and direct')">Bold &amp; direct</button>
+        <button class="tone-btn" onclick="selectTone(this,'Polished and professional')">Polished</button>
+        <button class="tone-btn" onclick="selectTone(this,'Conversational and natural')">Conversational</button>
+        <button class="tone-btn" onclick="selectTone(this,'Energetic and enthusiastic')">Energetic</button>
+        <button class="tone-btn" onclick="selectTone(this,'Inspiring and motivational')">Inspiring</button>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">How long?</div>
+      <div class="section-desc">15 seconds is perfect for most. 30 gives you more story.</div>
+      <div class="len-grid">
+        <button class="len-btn selected" id="len-15" onclick="selectLen(15)">
+          <span class="len-sec">15</span>
+          <span class="len-words">~35–40 words</span>
+        </button>
+        <button class="len-btn" id="len-20" onclick="selectLen(20)">
+          <span class="len-sec">20</span>
+          <span class="len-words">~50–55 words</span>
+        </button>
+        <button class="len-btn" id="len-30" onclick="selectLen(30)">
+          <span class="len-sec">30</span>
+          <span class="len-words">~75–80 words</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Call to action</div>
+      <div class="section-desc">Where should people find you after watching? (optional)</div>
+      <div class="field">
+        <label>Your CTA</label>
+        <input type="text" id="f-cta" placeholder="Find me on Instagram @yourhandle · yourwebsite.com" />
+      </div>
+    </div>
+
+    <button class="cta-btn" onclick="goStep3()">Write my script →</button>
+    <div style="text-align:center; margin-top: 12px;">
+      <button onclick="goBack(1)" style="background:none; border:none; color:var(--muted); font-size:14px; cursor:pointer; font-family:'DM Sans',sans-serif;">← Back</button>
+    </div>
+  </div>
+
+  <!-- SCREEN 3: Script -->
+  <div class="screen" id="screen-3">
+    <div class="step-indicator">
+      <div class="step-dot done"></div>
+      <div class="step-dot done"></div>
+      <div class="step-dot active"></div>
+      <span style="margin-left:4px;">Step 3 of 3 — Your script</span>
+    </div>
+
+    <div class="hint">
+      📖 Read this aloud before you record. Edit anything that doesn't sound like you.
+    </div>
+
+    <div class="script-card" id="script-card">
+      <div class="script-eyebrow">Your teleprompter script</div>
+      <div class="script-name" id="script-for"></div>
+      <div class="script-text loading" id="script-display">Writing your script…</div>
+      <div class="word-meta" id="word-meta" style="display:none">
+        <span id="word-count"></span>
+        <span id="est-time"></span>
+      </div>
+    </div>
+
+    <div id="edit-section" style="display:none">
+      <p class="script-edit-label">Edit your script below if anything needs adjusting:</p>
+      <textarea id="script-editor"></textarea>
+
+      <div class="action-row" style="margin-top:10px;">
+        <button class="sec-btn" onclick="regenerate()">↺ Rewrite</button>
+        <button class="sec-btn" onclick="copyScript()">⎘ Copy to clipboard</button>
+      </div>
+
+      <button class="cta-btn" id="submit-btn" onclick="submitScript()">Send script to production team →</button>
+    </div>
+
+    <div style="text-align:center; margin-top: 12px;">
+      <button onclick="goBack(2)" style="background:none; border:none; color:var(--muted); font-size:14px; cursor:pointer; font-family:'DM Sans',sans-serif;">← Back</button>
+    </div>
+  </div>
+
+  <!-- SCREEN 4: Success -->
+  <div class="screen" id="screen-4">
+    <div style="padding: 20px 0;">
+      <div class="success-card">
+        <div class="success-icon">✓</div>
+        <div class="success-title">You're all set!</div>
+        <p class="success-desc">Your script has been sent to the production team.<br>Head over to the recording station when you're ready.</p>
+      </div>
+
+      <div class="section">
+        <div class="section-title" style="margin-bottom: 10px;">Your final script</div>
+        <div style="font-size: 16px; line-height: 1.9; color: var(--ink); font-weight: 300;" id="final-script-display"></div>
+      </div>
+
+      <div class="section" style="background: var(--cream);">
+        <p style="font-size: 13px; color: var(--muted); line-height: 1.7;">
+          💡 <strong style="color:var(--ink);">Quick tips before you record:</strong><br>
+          Stand tall, breathe, and speak a little slower than feels natural.<br>
+          Look just above the camera lens — not directly at it.<br>
+          You've got this. 🎬
+        </p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const YOUR_EMAIL = 'info@intotherabbithole.io';
+
+  let selectedTone = 'Warm and friendly';
+  let selectedLen = 15;
+  let generatedScript = '';
+
+  function selectTone(btn, tone) {
+    document.querySelectorAll('.tone-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    selectedTone = tone;
+  }
+
+  function selectLen(len) {
+    [15, 20, 30].forEach(l => {
+      const b = document.getElementById('len-' + l);
+      if (b) b.classList.toggle('selected', l === len);
+    });
+    selectedLen = len;
+  }
+
+  function val(id) { return (document.getElementById(id) || {}).value || ''; }
+
+  function goStep2() {
+    const first = val('f-first').trim();
+    const biz = val('f-biz').trim();
+    const what = val('f-what').trim();
+    if (!first || !biz || !what) {
+      alert('Please fill in your first name, business name, and what you do.');
+      return;
+    }
+    showScreen(2);
+  }
+
+  function goStep3() {
+    showScreen(3);
+    generateScript();
+  }
+
+  function goBack(to) { showScreen(to); }
+
+  function showScreen(n) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById('screen-' + n).classList.add('active');
+    const fills = { 1: '33%', 2: '66%', 3: '90%', 4: '100%' };
+    document.getElementById('progress').style.width = fills[n] || '33%';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  async function generateScript() {
+    const first = val('f-first').trim();
+    const last = val('f-last').trim();
+    const biz = val('f-biz').trim();
+    const industry = val('f-industry').trim();
+    const what = val('f-what').trim();
+    const who = val('f-who').trim();
+    const result = val('f-result').trim();
+    const cta = val('f-cta').trim();
+
+    document.getElementById('script-for').textContent = first + (last ? ' ' + last : '') + ' · ' + biz;
+    document.getElementById('script-display').className = 'script-text loading';
+    document.getElementById('script-display').textContent = 'Writing your script…';
+    document.getElementById('edit-section').style.display = 'none';
+    document.getElementById('word-meta').style.display = 'none';
+
+    const wordTarget = selectedLen === 15 ? '35–40' : selectedLen === 20 ? '50–55' : '75–80';
+
+    const prompt = `Write a ${selectedLen}-second teleprompter script (${wordTarget} words) for a professional video introduction at a Texas Women in Business networking event.
+
+Name: ${first}${last ? ' ' + last : ''}
+Business: ${biz}${industry ? ' (' + industry + ')' : ''}
+What they do: ${what}
+${who ? 'Who they serve: ' + who : ''}
+${result ? 'Key result or outcome: ' + result : ''}
+${cta ? 'Call to action: ' + cta : ''}
+Tone: ${selectedTone}
+
+Rules:
+- Write ONLY the script text the person will read aloud on camera. No stage directions, no labels, no quotes, no preamble.
+- First-person voice.
+- Start with their name and business.
+- End with the call to action if one was provided.
+- Exactly ${wordTarget} words.
+- Natural rhythm for speaking aloud — short sentences, easy to read on a teleprompter.
+- Do not use exclamation marks more than once.`;
+
+    try {
+      const resp = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 1000,
+          messages: [{ role: 'user', content: prompt }]
+        })
+      });
+      const data = await resp.json();
+      const text = (data.content || []).filter(b => b.type === 'text').map(b => b.text).join('').trim();
+      generatedScript = text;
+      const words = text.split(/\s+/).filter(Boolean).length;
+      const secs = Math.round(words / 2.5);
+
+      document.getElementById('script-display').className = 'script-text';
+      document.getElementById('script-display').textContent = text;
+      document.getElementById('script-editor').value = text;
+      document.getElementById('word-count').textContent = words + ' words';
+      document.getElementById('est-time').textContent = '≈ ' + secs + ' seconds';
+      document.getElementById('word-meta').style.display = 'flex';
+      document.getElementById('edit-section').style.display = 'block';
+    } catch (e) {
+      document.getElementById('script-display').className = 'script-text';
+      document.getElementById('script-display').textContent = 'Something went wrong generating your script. Please try again.';
+      document.getElementById('edit-section').style.display = 'block';
+    }
+  }
+
+  function regenerate() { generateScript(); }
+
+  function copyScript() {
+    const text = document.getElementById('script-editor').value;
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = event.target;
+      btn.textContent = '✓ Copied!';
+      setTimeout(() => btn.textContent = '⎘ Copy to clipboard', 1500);
+    });
+  }
+
+  function submitScript() {
+    const first = val('f-first').trim();
+    const last = val('f-last').trim();
+    const biz = val('f-biz').trim();
+    const finalScript = document.getElementById('script-editor').value.trim();
+
+    if (!finalScript) { alert('Your script appears empty. Please check and try again.'); return; }
+
+    const subject = encodeURIComponent(`TWIB Script — ${first}${last ? ' ' + last : ''} · ${biz}`);
+    const body = encodeURIComponent(
+      `NEW VIDEO INTRO SCRIPT\n` +
+      `========================\n` +
+      `Name: ${first}${last ? ' ' + last : ''}\n` +
+      `Business: ${biz}\n` +
+      `Industry: ${val('f-industry') || '—'}\n` +
+      `Tone: ${selectedTone}\n` +
+      `Target length: ${selectedLen} seconds\n\n` +
+      `SCRIPT:\n\n${finalScript}\n\n` +
+      `========================\n` +
+      `Submitted via TWIB Intake Form`
+    );
+
+    document.getElementById('final-script-display').textContent = finalScript;
+    showScreen(4);
+
+    // Open mailto after brief delay so screen transition is visible
+    setTimeout(() => {
+      window.location.href = `mailto:${YOUR_EMAIL}?subject=${subject}&body=${body}`;
+    }, 600);
+  }
+</script>
+</body>
+</html>
